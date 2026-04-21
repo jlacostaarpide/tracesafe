@@ -31,21 +31,26 @@ static const int NUM_USUARIOS =
     sizeof(BRACELET_USERS) / sizeof(BRACELET_USERS[0]);
 
 // ─── Pines ESP32-S3 ──────────────────────────────────────────────────────────
-// SPI para MFRC522 (FSPI)
-#define PIN_SPI_SCK 36
+// SPI para MFRC522
+// SS y RST coinciden con el Arduino original.
+// SCK/MOSI/MISO van a 36/35/37: en ESP32-S3 los GPIO 11-13
+// están reservados para la flash interna y no se pueden usar.
+#define PIN_SPI_SCK  36
 #define PIN_SPI_MISO 37
 #define PIN_SPI_MOSI 35
-#define PIN_RFID_SS 10
-#define PIN_RFID_RST 9
+#define PIN_RFID_SS  10   // igual que Arduino
+#define PIN_RFID_RST  9   // igual que Arduino
 
-// Actuadores / sensores
-#define PIN_SERVO 4
-#define PIN_LED_ROJO 5
-#define PIN_LED_NARANJA 6
-#define PIN_LED_VERDE 7
-#define PIN_BOTON_EMERG 2
+// Actuadores / sensores — mismos números que el Arduino original
+#define PIN_SERVO        3
+#define PIN_LED_ROJO     8
+#define PIN_LED_NARANJA  7
+#define PIN_LED_VERDE    6
+#define PIN_BOTON_EMERG  2
 
-// LCD 16x2 modo 4-bit (RS, EN, D4, D5, D6, D7)
+// LCD 16x2 modo 4-bit
+// Los pines A1-A5 del Arduino no existen en ESP32-S3.
+// Conecta el LCD a estos GPIO libres: RS→15, EN→16, D4→17, D5→18, D6→21, D7→38
 #define PIN_LCD_RS 15
 #define PIN_LCD_EN 16
 #define PIN_LCD_D4 17

@@ -1,0 +1,168 @@
+════════════════════════════════════════════════════════════════
+  TRACESAFE — GUÍA DE CONEXIONES ESP32-S3
+════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RESUMEN RÁPIDO: ¿QUÉ CABLES SE MUEVEN RESPECTO AL ARDUINO?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  RFID (3 cables):
+    SCK  : Arduino pin 13  →  ESP32-S3 GPIO 36
+    MOSI : Arduino pin 11  →  ESP32-S3 GPIO 35
+    MISO : Arduino pin 12  →  ESP32-S3 GPIO 37
+
+  LCD (6 cables):
+    RS   : Arduino A1      →  ESP32-S3 GPIO 15
+    EN   : Arduino A2      →  ESP32-S3 GPIO 16
+    D4   : Arduino A3      →  ESP32-S3 GPIO 17
+    D5   : Arduino A4      →  ESP32-S3 GPIO 18
+    D6   : Arduino A5      →  ESP32-S3 GPIO 21
+    D7   : Arduino pin 5   →  ESP32-S3 GPIO 38
+
+  EL RESTO DE CABLES NO SE TOCAN (mismos números de pin).
+
+  ¿Por qué cambian SCK/MOSI/MISO?
+  Los GPIO 11, 12 y 13 del ESP32-S3 están reservados internamente
+  para la memoria flash del chip y no se pueden usar como SPI externo.
+  Se mueven a los pines FSPI nativos del ESP32-S3 (35, 36, 37).
+
+  ¿Por qué cambia el LCD?
+  El Arduino tiene pines analógicos A1–A5 que no existen en el
+  ESP32-S3. Se reasignan a GPIO libres (15, 16, 17, 18, 21, 38).
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TABLA COMPLETA DE CONEXIONES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  MÓDULO RFID — MFRC522                                      │
+  ├──────────────┬──────────────┬───────────────────────────────┤
+  │  Pin MFRC522 │  ESP32-S3    │  Notas                        │
+  ├──────────────┼──────────────┼───────────────────────────────┤
+  │  VCC         │  3.3V        │  ⚠️ Solo 3.3V, nunca 5V       │
+  │  GND         │  GND         │                               │
+  │  SCK         │  GPIO 36     │  Movido desde pin 13          │
+  │  MOSI        │  GPIO 35     │  Movido desde pin 11          │
+  │  MISO        │  GPIO 37     │  Movido desde pin 12          │
+  │  SDA (SS)    │  GPIO 10     │  Igual que Arduino            │
+  │  RST         │  GPIO 9      │  Igual que Arduino            │
+  └──────────────┴──────────────┴───────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  SERVO MOTOR (SG90 / MG90S)                                 │
+  ├──────────────┬──────────────┬───────────────────────────────┤
+  │  Cable        │  Conectar a  │  Notas                       │
+  ├──────────────┼──────────────┼───────────────────────────────┤
+  │  Señal (naranja/amarillo) │ GPIO 3 │ Igual que Arduino     │
+  │  VCC (rojo)  │  5V          │  Usar VBUS o fuente externa   │
+  │  GND (marrón)│  GND         │  GND común con ESP32-S3       │
+  └──────────────┴──────────────┴───────────────────────────────┘
+
+  ⚠️ Si el servo provoca reinicios del ESP32, aliméntalo con una
+     fuente externa de 5V (GND compartido con el ESP32).
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  LEDs (con resistencia de 220 Ω en serie cada uno)          │
+  ├──────────────┬──────────────┬───────────────────────────────┤
+  │  LED         │  ESP32-S3    │  Notas                        │
+  ├──────────────┼──────────────┼───────────────────────────────┤
+  │  Rojo        │  GPIO 8      │  Igual que Arduino            │
+  │  Naranja     │  GPIO 7      │  Igual que Arduino            │
+  │  Verde       │  GPIO 6      │  Igual que Arduino            │
+  └──────────────┴──────────────┴───────────────────────────────┘
+
+  Esquema por LED:
+    GPIO → [220 Ω] → Ánodo (+, pata larga) → Cátodo (-, pata corta) → GND
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  BOTÓN DE EMERGENCIA                                        │
+  ├──────────────┬──────────────┬───────────────────────────────┤
+  │  Pin botón   │  Conectar a  │  Notas                        │
+  ├──────────────┼──────────────┼───────────────────────────────┤
+  │  Un extremo  │  GPIO 2      │  Igual que Arduino            │
+  │  Otro extremo│  GND         │  Sin resistencia (usa PULLUP) │
+  └──────────────┴──────────────┴───────────────────────────────┘
+
+  El código ya activa INPUT_PULLUP internamente. No hace falta
+  resistencia externa.
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  LCD 16x2 — MODO 4 BITS (sin módulo I2C)                    │
+  ├──────────────┬──────────────┬───────────────────────────────┤
+  │  Pin LCD     │  Conectar a  │  Notas                        │
+  ├──────────────┼──────────────┼───────────────────────────────┤
+  │  1  VSS      │  GND         │                               │
+  │  2  VDD      │  5V          │                               │
+  │  3  V0       │  Potenciómetro 10kΩ │ Ajusta el contraste   │
+  │  4  RS       │  GPIO 15     │  Movido desde A1              │
+  │  5  RW       │  GND         │  Siempre a GND (solo escribe) │
+  │  6  E (EN)   │  GPIO 16     │  Movido desde A2              │
+  │  7–10 D0–D3  │  Sin conectar│  Modo 4 bits, no se usan      │
+  │  11 D4       │  GPIO 17     │  Movido desde A3              │
+  │  12 D5       │  GPIO 18     │  Movido desde A4              │
+  │  13 D6       │  GPIO 21     │  Movido desde A5              │
+  │  14 D7       │  GPIO 38     │  Movido desde pin 5           │
+  │  15 A (+BL)  │  5V + 220Ω  │  Retroiluminación             │
+  │  16 K (-BL)  │  GND         │  Retroiluminación             │
+  └──────────────┴──────────────┴───────────────────────────────┘
+
+  Potenciómetro de contraste (V0):
+    - Extremo 1 → 5V
+    - Extremo 2 (central/cursor) → Pin 3 del LCD (V0)
+    - Extremo 3 → GND
+    Gira el potenciómetro hasta que se vean los caracteres.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RESUMEN DE TODOS LOS GPIO USADOS EN EL ESP32-S3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  GPIO  2  →  Botón emergencia
+  GPIO  3  →  Servo (señal PWM)
+  GPIO  6  →  LED Verde
+  GPIO  7  →  LED Naranja
+  GPIO  8  →  LED Rojo
+  GPIO  9  →  RFID RST
+  GPIO 10  →  RFID SS (SDA)
+  GPIO 15  →  LCD RS
+  GPIO 16  →  LCD EN
+  GPIO 17  →  LCD D4
+  GPIO 18  →  LCD D5
+  GPIO 21  →  LCD D6
+  GPIO 35  →  RFID MOSI
+  GPIO 36  →  RFID SCK
+  GPIO 37  →  RFID MISO
+  GPIO 38  →  LCD D7
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ALIMENTACIÓN GENERAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ESP32-S3  →  USB-C al ordenador (para programar y alimentar)
+  RFID      →  3.3V del ESP32-S3
+  LCD       →  5V (pin VBUS del ESP32-S3 o fuente externa)
+  Servo     →  5V (pin VBUS del ESP32-S3 o fuente externa)
+  LEDs      →  GPIO directamente (3.3V con resistencia 220Ω)
+  GND       →  Todos comparten el mismo GND
+
+  ⚠️ El pin VBUS del ESP32-S3 da 5V pero viene directamente del
+     USB. Si el servo consume mucho (carga mecánica alta) usar
+     una fuente externa de 5V con GND común al ESP32-S3.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LIBRERÍAS A INSTALAR EN ARDUINO IDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Sketch → Include Library → Manage Libraries → buscar e instalar:
+
+    · MFRC522      por GithubCommunity
+    · ESP32Servo   por Kevin Harrington / madhephaestus
+
+  LiquidCrystal ya viene incluida con el core de Arduino.
+
+  Board: ESP32S3 Dev Module
+  (paquete "esp32" de Espressif, versión 2.x o superior)
+  Tools → Board → ESP32 Arduino → ESP32S3 Dev Module
