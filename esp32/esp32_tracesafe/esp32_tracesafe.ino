@@ -51,7 +51,9 @@ void setup() {
   estadoCerrado();
 
   conectarWiFi();
+  Serial.println("Iniciando reset Firebase...");
   resetearFirebase();
+  Serial.println("Setup completo. Esperando tarjeta.");
   pantallaInicial();
 }
 
@@ -69,6 +71,24 @@ void loop() {
     cerrarPuerta();
     pantallaInicial();
     return;
+  }
+
+  // ── Test por Serial Monitor: escribe "test" + Enter para simular Juan ───
+  static String serialBuf = "";
+  while (Serial.available()) {
+    char c = (char)Serial.read();
+    if (c == '\n' || c == '\r') {
+      serialBuf.trim();
+      if (serialBuf == "test") {
+        Serial.println("[TEST] Simulando tarjeta de Juan...");
+        serialBuf = "";
+        esperarAutorizacion("11EFD45D", &BRACELET_USERS[0]);
+        return;
+      }
+      serialBuf = "";
+    } else {
+      serialBuf += c;
+    }
   }
 
   // ── RFID ─────────────────────────────────────────────────────────────────
@@ -249,8 +269,9 @@ void conectarWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   int intentos = 0;
-  while (WiFi.status() != WL_CONNECTED && intentos < 20) {
+  while (WiFi.status() != WL_CONNECTED && intentos < 40) {
     delay(500);
+    Serial.print(".");
     intentos++;
   }
 
@@ -260,13 +281,14 @@ void conectarWiFi() {
     lcd.setCursor(0, 1);
     lcd.print(WiFi.localIP());
     Serial.println("WiFi OK → " + WiFi.localIP().toString());
+    delay(3000);  // deja estabilizar el stack SSL antes de cualquier peticion HTTPS
   } else {
     lcd.print("Sin WiFi");
     lcd.setCursor(0, 1);
     lcd.print("Modo local");
     Serial.println("WiFi FAIL");
+    delay(2000);
   }
-  delay(2000);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
