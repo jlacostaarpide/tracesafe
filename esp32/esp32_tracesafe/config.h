@@ -23,12 +23,17 @@ struct BrazaleteUsuario {
 };
 
 static BrazaleteUsuario BRACELET_USERS[] = {
-    {{0x11, 0xEF, 0xD4, 0x5D}, "O5SCuUuuaaPSfYjTNjyhXeYgVeG2", "Juan"},
-    {{0xFE, 0xAF, 0x26, 0x47}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"},
-    {{0x08, 0x09, 0xAF, 0xBF}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"},
-    {{0x01, 0x9E, 0x98, 0x9D}, "ka49ivYMtYWGEX6XUhmBsRTC5FP2", "Arturo"},
-    {{0x0E, 0xEE, 0xE2, 0x19}, "UWQmIsiquQT1WO5qO5rVxg6MxYh1", "Raul"},
-    {{0xCA, 0x1C, 0x47, 0x77}, "K55Vmwhh56S4wjRwIGKwmxkb4X13", "Mercedes"},
+    {{0x01, 0x9E, 0x98, 0x9D},
+     "ka49ivYMtYWGEX6XUhmBsRTC5FP2",
+     "Arturo"},                                                         // id=1
+    {{0x11, 0xEF, 0xD4, 0x5D}, "O5SCuUuuaaPSfYjTNjyhXeYgVeG2", "Juan"}, // id=2
+    {{0xCA, 0x1C, 0x47, 0x77},
+     "K55Vmwhh56S4wjRwIGKwmxkb4X13",
+     "Mercedes"},                                                        // id=3
+    {{0xFE, 0xAF, 0x26, 0x47}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"}, // id=4
+    {{0x0E, 0xEE, 0xE2, 0x19}, "UWQmIsiquQT1WO5qO5rVxg6MxYh1", "Raul"},  // id=5
+    {{0x08, 0x09, 0xAF, 0xBF}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"}  // id=6
+
 };
 static const int NUM_USUARIOS =
     sizeof(BRACELET_USERS) / sizeof(BRACELET_USERS[0]);
