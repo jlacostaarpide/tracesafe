@@ -1,8 +1,8 @@
 #pragma once
 
 // ─── WiFi ────────────────────────────────────────────────────────────────────
-#define WIFI_SSID "in3wifi"
-#define WIFI_PASSWORD "12345678"
+#define WIFI_SSID "RubahWifi"
+#define WIFI_PASSWORD "4ccm7veh"
 
 // ─── Firebase Realtime Database ──────────────────────────────────────────────
 // Firebase Console → Realtime Database → panel superior (URL terminada en
@@ -38,24 +38,17 @@ static const int NUM_USUARIOS =
 // ⚠️  GPIO 34,35,36,39: solo entrada → NO USAR como salida
 // ⚠️  GPIO 1,3: UART TX/RX del Serial Monitor → NO USAR
 
-// SPI para MFRC522 — pines VSPI nativos del ESP32
-#define PIN_SPI_SCK 18
-#define PIN_SPI_MISO 19
-#define PIN_SPI_MOSI 23
-#define PIN_RFID_SS 5
-#define PIN_RFID_RST 17
-
 // Actuadores / sensores
 #define PIN_SERVO 4
-#define PIN_LED_ROJO 25
-#define PIN_LED_NARANJA 26
-#define PIN_LED_VERDE 27
-#define PIN_BOTON_EMERG 13
+#define PIN_LED_ROJO 17
+#define PIN_LED_NARANJA 25
+#define PIN_LED_VERDE 26
+#define PIN_BOTON_EMERG 16
 
 // LCD 16x2 modo 4-bit (RS, EN, D4, D5, D6, D7)
-#define PIN_LCD_RS 14
-#define PIN_LCD_EN 22
-#define PIN_LCD_D4 16
+#define PIN_LCD_RS 13
+#define PIN_LCD_EN 5
+#define PIN_LCD_D4 23
 #define PIN_LCD_D5 21
 #define PIN_LCD_D6 32
 #define PIN_LCD_D7 33
