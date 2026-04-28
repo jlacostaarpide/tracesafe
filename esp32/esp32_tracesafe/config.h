@@ -24,8 +24,11 @@ struct BrazaleteUsuario {
 
 static BrazaleteUsuario BRACELET_USERS[] = {
     {{0x11, 0xEF, 0xD4, 0x5D}, "O5SCuUuuaaPSfYjTNjyhXeYgVeG2", "Juan"},
-    {{0xAA, 0xBB, 0xCC, 0xDD}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"},
-    {{0x11, 0x22, 0x33, 0x44}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"},
+    {{0xFE, 0xAF, 0x26, 0x47}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"},
+    {{0x08, 0x09, 0xAF, 0xBF}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"},
+    {{0x01, 0x9E, 0x98, 0x9D}, "ka49ivYMtYWGEX6XUhmBsRTC5FP2", "Arturo"},
+    {{0x0E, 0xEE, 0xE2, 0x19}, "UWQmIsiquQT1WO5qO5rVxg6MxYh1", "Raul"},
+    {{0xCA, 0x1C, 0x47, 0x77}, "K55Vmwhh56S4wjRwIGKwmxkb4X13", "Mercedes"},
 };
 static const int NUM_USUARIOS =
     sizeof(BRACELET_USERS) / sizeof(BRACELET_USERS[0]);
@@ -36,17 +39,17 @@ static const int NUM_USUARIOS =
 // ⚠️  GPIO 1,3: UART TX/RX del Serial Monitor → NO USAR
 
 // SPI para MFRC522 — pines VSPI nativos del ESP32
-#define PIN_SPI_SCK  18
+#define PIN_SPI_SCK 18
 #define PIN_SPI_MISO 19
 #define PIN_SPI_MOSI 23
-#define PIN_RFID_SS   5
+#define PIN_RFID_SS 5
 #define PIN_RFID_RST 17
 
 // Actuadores / sensores
-#define PIN_SERVO        4
-#define PIN_LED_ROJO    25
+#define PIN_SERVO 4
+#define PIN_LED_ROJO 25
 #define PIN_LED_NARANJA 26
-#define PIN_LED_VERDE   27
+#define PIN_LED_VERDE 27
 #define PIN_BOTON_EMERG 13
 
 // LCD 16x2 modo 4-bit (RS, EN, D4, D5, D6, D7)

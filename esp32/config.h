@@ -24,11 +24,11 @@ struct BrazaleteUsuario {
 
 static BrazaleteUsuario BRACELET_USERS[] = {
     {{0x11, 0xEF, 0xD4, 0x5D}, "O5SCuUuuaaPSfYjTNjyhXeYgVeG2", "Juan"},
-    {{0xAA, 0xBB, 0xCC, 0xDD}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"},
-    {{0x11, 0x22, 0x33, 0x44}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"},
-    {{0x01, 0x02, 0x03, 0x04}, "ka49ivYMtYWGEX6XUhmBsRTC5FP2", "Arturo"},
-    {{0x05, 0x06, 0x07, 0x08}, "UWQmIsiquQT1WO5qO5rVxg6MxYh1", "Raul"},
-    {{0x09, 0x0A, 0x0B, 0x0C}, " K55Vmwhh56S4wjRwIGKwmxkb4X13", "Mercedes"},
+    {{0xFE, 0xAF, 0x26, 0x47}, "Q1sLd4hIslPJCfPAbymrWwg9oOh1", "Ruben"},
+    {{0x08, 0x09, 0xAF, 0xBF}, "fntMn9aaFBOkkG7g6qtuR5T2kf92", "Santi"},
+    {{0x01, 0x9E, 0x98, 0x9D}, "ka49ivYMtYWGEX6XUhmBsRTC5FP2", "Arturo"},
+    {{0x0E, 0xEE, 0xE2, 0x19}, "UWQmIsiquQT1WO5qO5rVxg6MxYh1", "Raul"},
+    {{0xCA, 0x1C, 0x47, 0x77}, "K55Vmwhh56S4wjRwIGKwmxkb4X13", "Mercedes"},
 };
 static const int NUM_USUARIOS =
     sizeof(BRACELET_USERS) / sizeof(BRACELET_USERS[0]);
